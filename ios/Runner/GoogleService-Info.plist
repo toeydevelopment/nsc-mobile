@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>272701986604-ttlb4klt976675u3vmvuq34vnq2611qc.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.272701986604-ttlb4klt976675u3vmvuq34vnq2611qc</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBrcdt_5wMwIt_hhMi8Reo2TDLjq6wt8Fw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>272701986604</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.disasterhelper.www</string>
+	<key>PROJECT_ID</key>
+	<string>todowork-8e85f</string>
+	<key>STORAGE_BUCKET</key>
+	<string>todowork-8e85f.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:272701986604:ios:356c53a9f58f5dc3cd7e89</string>
+	<key>DATABASE_URL</key>
+	<string>https://todowork-8e85f.firebaseio.com</string>
+</dict>
+</plist>

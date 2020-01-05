@@ -13,6 +13,7 @@ class _SliderPanelState extends State<SliderPanel> {
   @override
   Widget build(BuildContext context) {
     return SlidingUpPanel(
+      minHeight: 100,
       controller: this._panelController,
       maxHeight: MediaQuery.of(context).size.height / 2 + 10,
       borderRadius: BorderRadius.only(

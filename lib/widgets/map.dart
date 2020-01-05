@@ -2,10 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:rxdart/subjects.dart';
 
 class MapWidget extends StatefulWidget {
-  const MapWidget();
+  LatLng initialLatlng;
+
+  PublishSubject<LatLng> latLng = new PublishSubject<LatLng>();
+
+  MapWidget({this.initialLatlng});
 
   @override
   State<StatefulWidget> createState() => MapWidgetState();
@@ -13,6 +17,8 @@ class MapWidget extends StatefulWidget {
 
 class MapWidgetState extends State<MapWidget> {
   MapWidgetState();
+
+  LatLng currentLatLng = new LatLng(15.8700, 100.9925);
 
   GoogleMapController controller;
   Map<PolygonId, Polygon> polygons = <PolygonId, Polygon>{};
@@ -29,9 +35,13 @@ class MapWidgetState extends State<MapWidget> {
 
   @override
   void initState() {
-    Timer.periodic(Duration(seconds: 3), (_) {
-      this._add();
+    widget.latLng.listen((LatLng newLatLng) {
+      setState(() {
+        this.controller.moveCamera(CameraUpdate.newLatLng(newLatLng));
+      });
     });
+    if (widget.initialLatlng == null) {
+    } else {}
   }
 
   // Values when toggling polygon width
@@ -83,10 +93,21 @@ class MapWidgetState extends State<MapWidget> {
 
   @override
   Widget build(BuildContext context) {
+    print(this.currentLatLng);
     return GoogleMap(
-      initialCameraPosition: const CameraPosition(
-        target: LatLng(52.4478, -3.5402),
-        zoom: 7.0,
+      mapToolbarEnabled: true,
+      buildingsEnabled: false,
+      trafficEnabled: true,
+      compassEnabled: true,
+      mapType: MapType.hybrid,
+      myLocationEnabled: true,
+      onCameraMove: (_) {
+        // this.controller.moveCamera(CameraUpdate.newLatLng(this.currentLatLng));
+        print("CAMERA MOVING");
+      },
+      initialCameraPosition: CameraPosition(
+        target: this.currentLatLng,
+        zoom: 15.0,
       ),
       polygons: Set<Polygon>.of(polygons.values),
       onMapCreated: _onMapCreated,

@@ -1,3 +1,6 @@
+import 'package:disaster_helper/constants.dart';
+import 'package:disaster_helper/models/map.dart';
+import 'package:disaster_helper/utils/firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rxdart/subjects.dart';
@@ -24,6 +27,7 @@ class MapWidgetState extends State<MapWidget> {
   PolygonId selectedPolygon;
   int strokeColorsIndex = 0;
   int fillColorsIndex = 0;
+  double zoom = 8.0;
   List<Color> colors = <Color>[
     Colors.purple,
     Colors.red,
@@ -33,10 +37,15 @@ class MapWidgetState extends State<MapWidget> {
 
   @override
   void initState() {
-    widget.latLng.listen((LatLng newLatLng) {
-      setState(() {
-        this.controller.moveCamera(CameraUpdate.newLatLng(newLatLng));
+    getPolygons().then((List<MapModel> maps) {
+      maps.forEach((MapModel map) {
+        this._add(map);
+        mapsModel.add(map);
       });
+    });
+    widget.latLng.listen((LatLng newLatLng) {
+      this.controller.animateCamera(CameraUpdate.newCameraPosition(
+          CameraPosition(target: newLatLng, zoom: 15)));
     });
     if (widget.initialLatlng == null) {
     } else {}
@@ -61,24 +70,21 @@ class MapWidgetState extends State<MapWidget> {
     });
   }
 
-  void _add() {
-    final int polygonCount = polygons.length;
-
-    if (polygonCount == 12) {
-      return;
-    }
-
-    final String polygonIdVal = 'polygon_id_$_polygonIdCounter';
+  void _add(MapModel map) {
+    final String polygonIdVal = 'polygon_id_${map.name}';
     _polygonIdCounter++;
     final PolygonId polygonId = PolygonId(polygonIdVal);
-
     final Polygon polygon = Polygon(
       polygonId: polygonId,
       consumeTapEvents: true,
-      strokeColor: Colors.orange,
-      strokeWidth: 5,
-      fillColor: Colors.green,
-      points: _createPoints(),
+      strokeColor: Colors.black,
+      strokeWidth: 2,
+      fillColor: map.type == "ไฟไหม้"
+          ? Color(0xFFE57373).withOpacity(.2)
+          : map.type == "น้ำท่วม"
+              ? Color(0xFF90CAF9).withOpacity(.2)
+              : Color(0xFFA1887F).withOpacity(.2),
+      points: _createPoints(map.polygons),
       onTap: () {
         _onPolygonTapped(polygonId);
       },
@@ -104,20 +110,18 @@ class MapWidgetState extends State<MapWidget> {
       },
       initialCameraPosition: CameraPosition(
         target: this.currentLatLng,
-        zoom: 15.0,
+        zoom: zoom,
       ),
       polygons: Set<Polygon>.of(polygons.values),
       onMapCreated: _onMapCreated,
     );
   }
 
-  List<LatLng> _createPoints() {
+  List<LatLng> _createPoints(List<Map<String, dynamic>> pointsPure) {
     final List<LatLng> points = <LatLng>[];
-    final double offset = _polygonIdCounter.ceilToDouble();
-    points.add(_createLatLng(51.2395 + offset, -3.4314));
-    points.add(_createLatLng(53.5234 + offset, -3.5314));
-    points.add(_createLatLng(52.4351 + offset, -4.5235));
-    points.add(_createLatLng(52.1231 + offset, -5.0829));
+    pointsPure.forEach((p) {
+      points.add(_createLatLng(p['lat'], p['lng']));
+    });
     return points;
   }
 

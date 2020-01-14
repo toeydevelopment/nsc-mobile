@@ -1,9 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:disaster_helper/models/user.dart';
 import 'package:disaster_helper/pages/authen_page.dart';
 import 'package:disaster_helper/pages/landing_page.dart';
 import 'package:disaster_helper/pages/news_detail_page.dart';
 import 'package:disaster_helper/pages/news_page.dart';
-import 'package:disaster_helper/pages/victims_area_page.dart';
+import 'package:disaster_helper/utils/firestore.dart';
 import 'package:disaster_helper/widgets/custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

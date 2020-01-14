@@ -46,7 +46,6 @@ class _LandingPageSate extends State<LandingPage> {
               backgroundColor: Colors.white,
               onPressed: () async {
                 var lo = await this.getCurrentLocation();
-
                 map.latLng.add(new LatLng(lo.latitude, lo.longitude));
               },
               child: Icon(
@@ -55,7 +54,7 @@ class _LandingPageSate extends State<LandingPage> {
               ),
             ),
           ),
-          SliderPanel(),
+          SliderPanel(map),
         ],
       ),
     );

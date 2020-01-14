@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rxdart/subjects.dart';
@@ -103,7 +101,6 @@ class MapWidgetState extends State<MapWidget> {
       myLocationEnabled: true,
       onCameraMove: (_) {
         // this.controller.moveCamera(CameraUpdate.newLatLng(this.currentLatLng));
-        print("CAMERA MOVING");
       },
       initialCameraPosition: CameraPosition(
         target: this.currentLatLng,
